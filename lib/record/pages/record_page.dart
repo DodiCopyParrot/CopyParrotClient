@@ -39,6 +39,32 @@ class _RecordPageState extends ConsumerState<RecordPage> {
     });
     return Scaffold(
       backgroundColor: Pallete.whiteColor,
+      floatingActionButton: Container(
+        height: 60,
+        width: 60,
+        decoration: BoxDecoration(
+            color: Colors.transparent, // 투명 배경
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2), // 그림자 색상과 투명도 조정
+                blurRadius: 6, // 그림자 퍼짐 정도
+                spreadRadius: 2, // 그림자 크기
+                offset: Offset(0, 2), // 그림자 위치 조정
+              ),
+            ],
+            borderRadius: BorderRadius.circular(30) // 원형으로 설정
+            ),
+        child: FloatingActionButton(
+          onPressed: () async {},
+          child: Padding(
+              padding: EdgeInsets.only(left: 6),
+              child: Image.asset("assets/images/leftTriangle.png", width: 28)),
+          backgroundColor: Pallete.blueColor,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+          elevation: 0,
+        ),
+      ),
       body: Stack(
         children: [
           Padding(
@@ -104,9 +130,8 @@ class _RecordPageState extends ConsumerState<RecordPage> {
                                                   ),
                                               child: Center(
                                                   child: Image.asset(
-                                                'assets/images/all.png',
-                                                width: 30
-                                              ))),
+                                                      'assets/images/all.png',
+                                                      width: 30))),
                                           SizedBox(height: 6),
                                           Text('전체',
                                               style: mediumGrayA14.copyWith(
