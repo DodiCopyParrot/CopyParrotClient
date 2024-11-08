@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:copyparrot/models/bookmark_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,20 +14,47 @@ BookmarkRepository bookmarkRepository(Ref ref) {
 
 class BookmarkRepository {
   final _dio = Dio();
+  var deviceInfo = DeviceInfoPlugin();
 
   // 모든 PersonModel 리스트 가져오기
-  // Future<List<BookmarkModel>> getAllBookmarks() async {
-  Future<List<BookmarkModel>> tbd_getAllBookmarks() async {
-    final uri = Uri.http(
-      "semtle.catholic.ac.kr:8087",
-      '/bookmarks',
-    );
-    final response = await _dio.getUri(uri); // 실제 API 엔드포인트 사용
-    final List<dynamic> data = jsonDecode(response.data);
-    return data.map((json) => BookmarkModel.fromJson(json)).toList();
-  }
-  // Future<List<BookmarkModel>> tmp_getAllBookmarks() async {
   Future<List<BookmarkModel>> getAllBookmarks() async {
+    // Future<List<BookmarkModel>> tbd_getAllBookmarks() async {
+    var iosInfo = await deviceInfo.iosInfo;
+    final uri = Uri.https(
+      "parrot.dopaminedefense.team",
+      '/shadowing/record',
+    );
+    final response = await _dio.getUri(
+        uri.replace(queryParameters: {"uuid": iosInfo.identifierForVendor}),
+      );
+    // try {
+    //   final response = await _dio.getUri(
+    //     uri.replace(queryParameters: {"uuid": iosInfo.identifierForVendor}),
+    //   );
+    //   print("uuid: ${iosInfo.identifierForVendor}");
+
+    //   // final response = await _dio.getUri(uri,
+    //   //     data: {"uuid": iosInfo.identifierForVendor}); // 실제 API 엔드포인트 사용
+    //   print(response);
+    //   print("here!");
+    // } catch (e) {
+    //   print(e);
+    //   print("here.....");
+    // }
+    final data = response.data['data']; // 'data' 키에 해당하는 값 추출
+      if (data != null && data is List) {
+        print("gooood");
+        print(data.length);
+        return data.map((json) => BookmarkModel.fromJson(json)).toList();
+      } else {
+        // 'data'가 없거나 리스트가 아니면 빈 리스트 반환
+        print("what::????");
+        return [];
+      }
+  }
+
+  Future<List<BookmarkModel>> tmp_getAllBookmarks() async {
+    // Future<List<BookmarkModel>> getAllBookmarks() async {
     const String dummyJson = '''
     [
       {

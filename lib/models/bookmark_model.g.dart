@@ -8,11 +8,11 @@ part of 'bookmark_model.dart';
 
 _$BookmarkModelImpl _$$BookmarkModelImplFromJson(Map<String, dynamic> json) =>
     _$BookmarkModelImpl(
-      chatId: json['chatId'] as String? ?? '',
+      id: (json['id'] as num?)?.toInt() ?? 0,
       koText: json['koText'] as String? ?? '',
       enText: json['enText'] as String? ?? '',
-      voiceFile: _$JsonConverterFromJson<String, Uint8List>(
-          json['voiceFile'], const Uint8ListConverter().fromJson),
+      file: _$JsonConverterFromJson<String, Uint8List>(
+          json['file'], const Uint8ListConverter().fromJson),
       timestamp: json['timestamp'] as String? ?? '',
       image: json['image'] as String? ?? '',
       name: json['name'] as String? ?? '',
@@ -22,11 +22,11 @@ _$BookmarkModelImpl _$$BookmarkModelImplFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$$BookmarkModelImplToJson(_$BookmarkModelImpl instance) =>
     <String, dynamic>{
-      'chatId': instance.chatId,
+      'id': instance.id,
       'koText': instance.koText,
       'enText': instance.enText,
-      'voiceFile': _$JsonConverterToJson<String, Uint8List>(
-          instance.voiceFile, const Uint8ListConverter().toJson),
+      'file': _$JsonConverterToJson<String, Uint8List>(
+          instance.file, const Uint8ListConverter().toJson),
       'timestamp': instance.timestamp,
       'image': instance.image,
       'name': instance.name,

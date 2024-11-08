@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:typed_data';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -19,10 +20,10 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
 @freezed
 class BookmarkModel with _$BookmarkModel {
   const factory BookmarkModel({
-    @Default('') String chatId,
+    @Default(0) int id,
     @Default('') String koText,
     @Default('') String enText,
-    @Uint8ListConverter() Uint8List? voiceFile,
+    @Uint8ListConverter() Uint8List? file,
     @Default('') String timestamp,
     @Default('') String image,
     @Default('') String name,

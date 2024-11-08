@@ -20,11 +20,11 @@ BookmarkModel _$BookmarkModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BookmarkModel {
-  String get chatId => throw _privateConstructorUsedError;
+  int get id => throw _privateConstructorUsedError;
   String get koText => throw _privateConstructorUsedError;
   String get enText => throw _privateConstructorUsedError;
   @Uint8ListConverter()
-  Uint8List? get voiceFile => throw _privateConstructorUsedError;
+  Uint8List? get file => throw _privateConstructorUsedError;
   String get timestamp => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -48,10 +48,10 @@ abstract class $BookmarkModelCopyWith<$Res> {
       _$BookmarkModelCopyWithImpl<$Res, BookmarkModel>;
   @useResult
   $Res call(
-      {String chatId,
+      {int id,
       String koText,
       String enText,
-      @Uint8ListConverter() Uint8List? voiceFile,
+      @Uint8ListConverter() Uint8List? file,
       String timestamp,
       String image,
       String name,
@@ -74,10 +74,10 @@ class _$BookmarkModelCopyWithImpl<$Res, $Val extends BookmarkModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatId = null,
+    Object? id = null,
     Object? koText = null,
     Object? enText = null,
-    Object? voiceFile = freezed,
+    Object? file = freezed,
     Object? timestamp = null,
     Object? image = null,
     Object? name = null,
@@ -85,10 +85,10 @@ class _$BookmarkModelCopyWithImpl<$Res, $Val extends BookmarkModel>
     Object? describe = null,
   }) {
     return _then(_value.copyWith(
-      chatId: null == chatId
-          ? _value.chatId
-          : chatId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       koText: null == koText
           ? _value.koText
           : koText // ignore: cast_nullable_to_non_nullable
@@ -97,9 +97,9 @@ class _$BookmarkModelCopyWithImpl<$Res, $Val extends BookmarkModel>
           ? _value.enText
           : enText // ignore: cast_nullable_to_non_nullable
               as String,
-      voiceFile: freezed == voiceFile
-          ? _value.voiceFile
-          : voiceFile // ignore: cast_nullable_to_non_nullable
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
       timestamp: null == timestamp
           ? _value.timestamp
@@ -134,10 +134,10 @@ abstract class _$$BookmarkModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String chatId,
+      {int id,
       String koText,
       String enText,
-      @Uint8ListConverter() Uint8List? voiceFile,
+      @Uint8ListConverter() Uint8List? file,
       String timestamp,
       String image,
       String name,
@@ -158,10 +158,10 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? chatId = null,
+    Object? id = null,
     Object? koText = null,
     Object? enText = null,
-    Object? voiceFile = freezed,
+    Object? file = freezed,
     Object? timestamp = null,
     Object? image = null,
     Object? name = null,
@@ -169,10 +169,10 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
     Object? describe = null,
   }) {
     return _then(_$BookmarkModelImpl(
-      chatId: null == chatId
-          ? _value.chatId
-          : chatId // ignore: cast_nullable_to_non_nullable
-              as String,
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
       koText: null == koText
           ? _value.koText
           : koText // ignore: cast_nullable_to_non_nullable
@@ -181,9 +181,9 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
           ? _value.enText
           : enText // ignore: cast_nullable_to_non_nullable
               as String,
-      voiceFile: freezed == voiceFile
-          ? _value.voiceFile
-          : voiceFile // ignore: cast_nullable_to_non_nullable
+      file: freezed == file
+          ? _value.file
+          : file // ignore: cast_nullable_to_non_nullable
               as Uint8List?,
       timestamp: null == timestamp
           ? _value.timestamp
@@ -213,10 +213,10 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$BookmarkModelImpl implements _BookmarkModel {
   const _$BookmarkModelImpl(
-      {this.chatId = '',
+      {this.id = 0,
       this.koText = '',
       this.enText = '',
-      @Uint8ListConverter() this.voiceFile,
+      @Uint8ListConverter() this.file,
       this.timestamp = '',
       this.image = '',
       this.name = '',
@@ -228,7 +228,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
 
   @override
   @JsonKey()
-  final String chatId;
+  final int id;
   @override
   @JsonKey()
   final String koText;
@@ -237,7 +237,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
   final String enText;
   @override
   @Uint8ListConverter()
-  final Uint8List? voiceFile;
+  final Uint8List? file;
   @override
   @JsonKey()
   final String timestamp;
@@ -256,7 +256,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
 
   @override
   String toString() {
-    return 'BookmarkModel(chatId: $chatId, koText: $koText, enText: $enText, voiceFile: $voiceFile, timestamp: $timestamp, image: $image, name: $name, voiceId: $voiceId, describe: $describe)';
+    return 'BookmarkModel(id: $id, koText: $koText, enText: $enText, file: $file, timestamp: $timestamp, image: $image, name: $name, voiceId: $voiceId, describe: $describe)';
   }
 
   @override
@@ -264,10 +264,10 @@ class _$BookmarkModelImpl implements _BookmarkModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BookmarkModelImpl &&
-            (identical(other.chatId, chatId) || other.chatId == chatId) &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.koText, koText) || other.koText == koText) &&
             (identical(other.enText, enText) || other.enText == enText) &&
-            const DeepCollectionEquality().equals(other.voiceFile, voiceFile) &&
+            const DeepCollectionEquality().equals(other.file, file) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             (identical(other.image, image) || other.image == image) &&
@@ -281,10 +281,10 @@ class _$BookmarkModelImpl implements _BookmarkModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      chatId,
+      id,
       koText,
       enText,
-      const DeepCollectionEquality().hash(voiceFile),
+      const DeepCollectionEquality().hash(file),
       timestamp,
       image,
       name,
@@ -309,10 +309,10 @@ class _$BookmarkModelImpl implements _BookmarkModel {
 
 abstract class _BookmarkModel implements BookmarkModel {
   const factory _BookmarkModel(
-      {final String chatId,
+      {final int id,
       final String koText,
       final String enText,
-      @Uint8ListConverter() final Uint8List? voiceFile,
+      @Uint8ListConverter() final Uint8List? file,
       final String timestamp,
       final String image,
       final String name,
@@ -323,14 +323,14 @@ abstract class _BookmarkModel implements BookmarkModel {
       _$BookmarkModelImpl.fromJson;
 
   @override
-  String get chatId;
+  int get id;
   @override
   String get koText;
   @override
   String get enText;
   @override
   @Uint8ListConverter()
-  Uint8List? get voiceFile;
+  Uint8List? get file;
   @override
   String get timestamp;
   @override
