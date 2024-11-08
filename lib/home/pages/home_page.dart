@@ -9,7 +9,7 @@ import '../../core/pallete.dart';
 import '../../core/text_theme.dart';
 
 class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key}); 
 
   @override
   ConsumerState createState() => _HomePageState();
