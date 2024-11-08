@@ -8,6 +8,69 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/pallete.dart';
 import '../../core/text_theme.dart';
 
+class PersonBubble extends StatelessWidget {
+  const PersonBubble({super.key, required this.person});
+
+  final PersonModel person;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 68,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10), color: Color(0xffF3F2F8)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(48),
+                    child: Image.network(
+                      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRy5QMODyHm-LaMpgXOqMIUHPbQ-Y51jAZR_UJYC-9Dv1IL3ovh",
+                      fit: BoxFit.cover,
+                    ),
+                  )),
+              SizedBox(
+                width: 12,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    person.name,
+                    style: semiBold18Black.copyWith(
+                        fontSize: 14, fontWeight: FontWeight.w400),
+                  ),
+                  Text(
+                    person.describe,
+                    style: semiBold18Black.copyWith(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        color: Pallete.greyAColor),
+                  )
+                ],
+              ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Image.asset(
+              "assets/images/icon_next.png",
+              width: 24,
+              height: 24,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
@@ -96,12 +159,102 @@ class _HomePageState extends ConsumerState<HomePage> {
                         SizedBox(
                           width: 15,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(right: 30.0),
-                          child: Image.asset(
-                            "assets/images/refresh.png",
-                            width: 22,
-                            height: 22,
+                        GestureDetector(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (BuildContext context) {
+                                return StatefulBuilder(builder:
+                                    (BuildContext context,
+                                        StateSetter setState) {
+                                  return Container(
+                                    height:
+                                        MediaQuery.of(context).size.height - 60,
+                                    padding: EdgeInsets.only(
+                                        left: 20,
+                                        bottom: 60,
+                                        top: 30,
+                                        right: 20),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(30))),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: Text(
+                                                "완료",
+                                                style: mediumGrayA14.copyWith(
+                                                    color: Color(0xff500AF4),
+                                                    fontSize: 18),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 40,
+                                        ),
+                                        Text(
+                                          "워너비 변경",
+                                          style: boldWhite20.copyWith(
+                                            fontSize: 28,
+                                            color: Color(0xff111115),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "닮고 싶은 워너비를 선택하여\n효과적으로 영어 실력을 향상시키세요.",
+                                          style: mediumGrayA14,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(
+                                          height: 40,
+                                        ),
+                                        Image.asset(
+                                          "assets/images/search-bar.png",
+                                          width: 350,
+                                          height: 44,
+                                        ),
+                                        Expanded(
+                                          child: ListView(
+                                            padding: EdgeInsets.only(top: 40),
+                                            children: [
+                                              PersonBubble(
+                                                  person: PersonModel(
+                                                      name: "일론 머스크",
+                                                      describe:
+                                                          "남아공 출신 특유의 억양, 도전적이며 논리적",
+                                                      image:
+                                                          "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRy5QMODyHm-LaMpgXOqMIUHPbQ-Y51jAZR_UJYC-9Dv1IL3ovh"))
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                });
+                              },
+                            );
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 30.0),
+                            child: Image.asset(
+                              "assets/images/refresh.png",
+                              width: 22,
+                              height: 22,
+                            ),
                           ),
                         ),
                       ],

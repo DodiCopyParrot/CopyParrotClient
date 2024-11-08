@@ -21,6 +21,7 @@ dependencies:
   device_info_plus: ^11.1.1
   freezed: ^2.5.7
   flutter_sharing_intent: ^1.1.1
+  audio_waveforms: ^1.1.1
 
 dev_dependencies:
   flutter_test:
@@ -76,5 +77,5 @@ flutter:
           weight: 900
     - family: CrimsonText
       fonts:
-        - asset: assets/fonts/Pretendard-Bold.ttf
+        - asset: assets/fonts/CrimsonText-Bold.ttf
           weight: 700

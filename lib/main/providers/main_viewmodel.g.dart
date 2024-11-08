@@ -24,7 +24,7 @@ final mainIndexViewmodelProvider =
 
 typedef _$MainIndexViewmodel = AutoDisposeNotifier<int>;
 String _$mainOnboardingViewmodelHash() =>
-    r'a7e614c577c69cf6354654613baea10b087ae5a7';
+    r'e87383472d9a51255e861fb1c84f5c8d120bc4dd';
 
 /// See also [MainOnboardingViewmodel].
 @ProviderFor(MainOnboardingViewmodel)

@@ -1,4 +1,5 @@
 import 'package:copyparrot/core/text_theme.dart';
+import 'package:copyparrot/home/providers/result_viewmodel.dart';
 import 'package:copyparrot/models/person_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,16 @@ class ResultPage extends ConsumerStatefulWidget {
 class _ResultPageState extends ConsumerState<ResultPage> {
   @override
   Widget build(BuildContext context) {
+    final stream = ref.watch(resultViewModelProvider(text: widget.text));
+    //print(stream);
+
+    final file = ref.watch(resultVoiceViewmodelProvider(
+      text:
+          "This is the first part of the translation.\nThis is the second part.\nAnd here’s the final part of the translation.",
+      markId: 2,
+      voiceId: 2,
+    ));
+    print(file);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -131,7 +142,16 @@ class _ResultPageState extends ConsumerState<ResultPage> {
                         height: 11,
                       ),
                       Text(
-                          'Let me be clear, Yeon-jin... I’m going to win this today. No matter what.'),
+                        '"${stream.hasValue ? stream.value!.enText : ""}"',
+                        style: TextStyle(
+                            fontFamily: 'CrimsonText',
+                            fontSize: 24,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      ),
+                      Row(
+                        children: [],
+                      )
                     ],
                   ),
                 ),

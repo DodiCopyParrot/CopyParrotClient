@@ -34,7 +34,7 @@ class MainOnboardingViewmodel extends _$MainOnboardingViewmodel {
       final response =
           await _dio.postUri(uri, data: {"uuid": iosInfo.identifierForVendor});
 
-      print(response);
+      print(response.data);
     } catch (e) {
       print(e);
     }
