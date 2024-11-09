@@ -159,261 +159,267 @@ class _HomePageState extends ConsumerState<HomePage> {
     PersonModel person = myPerson.hasValue ? myPerson.value! : PersonModel();
     // PersonModel(name: "오바마", enName: "Barack Obama", voiceId: 1);
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: myPerson.hasValue
-              ? DecorationImage(
-                  image: AssetImage(
-                    "assets/images/background-${person.voiceId}.png",
-                  ), // 경로에 맞게 수정
-                  fit: BoxFit.cover,
-                  alignment: Alignment.topCenter)
-              : null,
-        ),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: Image.asset("assets/images/background-gradient.png"),
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              child: Image.asset(
-                "assets/images/background-blur.png",
-                fit: BoxFit.fill,
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus(); // 키보드 닫기
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            image: myPerson.hasValue
+                ? DecorationImage(
+                    image: AssetImage(
+                      "assets/images/background-${person.voiceId}.png",
+                    ), // 경로에 맞게 수정
+                    fit: BoxFit.cover,
+                    alignment: Alignment.topCenter)
+                : null,
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Image.asset("assets/images/background-gradient.png"),
               ),
-            ),
-            Column(
-              children: [
-                SizedBox(
-                  height: 60,
+              Positioned(
+                left: 0,
+                right: 0,
+                child: Image.asset(
+                  "assets/images/background-blur.png",
+                  fit: BoxFit.fill,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 25,
-                        ),
-                        Text(
-                          "copy parrot",
-                          style: semiBold18Black,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 60,
-                          height: 28,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Color(0xff003670).withOpacity(0.15)),
-                          child: Center(
-                            child: Text(
-                              person.name,
-                              style: boldWhite20.copyWith(
-                                  fontSize: 14, color: Color(0xff003670)),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            await ref.read(personListProvider.future);
-                            showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (BuildContext context) {
-                                return StatefulBuilder(builder:
-                                    (BuildContext context,
-                                        StateSetter setState) {
-                                  return Container(
-                                    height:
-                                        MediaQuery.of(context).size.height - 60,
-                                    padding: EdgeInsets.only(
-                                        left: 20,
-                                        bottom: 60,
-                                        top: 30,
-                                        right: 20),
-                                    decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(30))),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                "완료",
-                                                style: mediumGrayA14.copyWith(
-                                                    color: Color(0xff500AF4),
-                                                    fontSize: 18),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 40,
-                                        ),
-                                        Text(
-                                          "워너비 변경",
-                                          style: boldWhite20.copyWith(
-                                            fontSize: 28,
-                                            color: Color(0xff111115),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          "닮고 싶은 워너비를 선택하여\n효과적으로 영어 실력을 향상시키세요.",
-                                          style: mediumGrayA14,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        SizedBox(
-                                          height: 40,
-                                        ),
-                                        Image.asset(
-                                          "assets/images/search-bar.png",
-                                          width: 350,
-                                          height: 44,
-                                        ),
-                                        Expanded(
-                                          child: !persons.hasValue
-                                              ? Center(
-                                                  child:
-                                                      CircularProgressIndicator(),
-                                                )
-                                              : ListView(
-                                                  padding:
-                                                      EdgeInsets.only(top: 40),
-                                                  children: persons.value!
-                                                      .map((val) =>
-                                                          PersonBubble(
-                                                              person: val))
-                                                      .toList()),
-                                        )
-                                      ],
-                                    ),
-                                  );
-                                });
-                              },
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 30.0),
-                            child: Image.asset(
-                              "assets/images/refresh.png",
-                              width: 22,
-                              height: 22,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 41,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              ),
+              Column(
+                children: [
+                  SizedBox(
+                    height: 60,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text(
-                            "오늘 당신이\n말하고 싶은 문장은?",
-                            style: boldWhite24,
+                          SizedBox(
+                            width: 25,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ResultPage(
-                                            person: person,
-                                            text: _controller.text,
-                                          )));
-                            },
-                            child: Image.asset(
-                              "assets/images/go.png",
-                              width: 42,
-                              height: 63,
-                            ),
-                          )
+                          Text(
+                            "copy parrot",
+                            style: semiBold18Black,
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      Text(
-                        "당신의 워너비, ${person.name} 가 대신 말해줄거예요.",
-                        style: regularGrayA10.copyWith(
-                            color: Color(0xffD1D1D1), fontSize: 11),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            border: Border.all(color: Colors.white, width: 1),
-                            color: Colors.white.withOpacity(0.2)),
-                        width: double.infinity,
-                        // height: 42,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 13.0, vertical: 11),
-                          child: Center(
-                            child: TextField(
-                              maxLines: null,
-                              controller: _controller,
-                              style: regularGrayA10.copyWith(
-                                  color: Colors.white, fontSize: 14),
-                              decoration: InputDecoration.collapsed(
-                                hintText: "무엇을 말하고 싶나요?",
-                                hintStyle: regularGrayA10.copyWith(
-                                    color: Colors.white, fontSize: 14),
+                      Row(
+                        children: [
+                          Container(
+                            width: 60,
+                            height: 28,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                color: Color(0xff003670).withOpacity(0.15)),
+                            child: Center(
+                              child: Text(
+                                person.koName,
+                                style: boldWhite20.copyWith(
+                                    fontSize: 14, color: Color(0xff003670)),
                               ),
-                              cursorColor: Colors.white,
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 14,
-                      ),
-                      Image.asset(
-                        "assets/images/kakao-button.png",
-                        width: 123,
-                        height: 43,
+                          SizedBox(
+                            width: 15,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              await ref.read(personListProvider.future);
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (BuildContext context) {
+                                  return StatefulBuilder(builder:
+                                      (BuildContext context,
+                                          StateSetter setState) {
+                                    return Container(
+                                      height:
+                                          MediaQuery.of(context).size.height -
+                                              60,
+                                      padding: EdgeInsets.only(
+                                          left: 20,
+                                          bottom: 60,
+                                          top: 30,
+                                          right: 20),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.vertical(
+                                              top: Radius.circular(30))),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.end,
+                                            children: [
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text(
+                                                  "완료",
+                                                  style: mediumGrayA14.copyWith(
+                                                      color: Color(0xff500AF4),
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          Text(
+                                            "워너비 변경",
+                                            style: boldWhite20.copyWith(
+                                              fontSize: 28,
+                                              color: Color(0xff111115),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                          Text(
+                                            "닮고 싶은 워너비를 선택하여\n효과적으로 영어 실력을 향상시키세요.",
+                                            style: mediumGrayA14,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          SizedBox(
+                                            height: 40,
+                                          ),
+                                          Image.asset(
+                                            "assets/images/search-bar.png",
+                                            width: 350,
+                                            height: 44,
+                                          ),
+                                          Expanded(
+                                            child: !persons.hasValue
+                                                ? Center(
+                                                    child:
+                                                        CircularProgressIndicator(),
+                                                  )
+                                                : ListView(
+                                                    padding: EdgeInsets.only(
+                                                        top: 40),
+                                                    children: persons.value!
+                                                        .map((val) =>
+                                                            PersonBubble(
+                                                                person: val))
+                                                        .toList()),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                },
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 30.0),
+                              child: Image.asset(
+                                "assets/images/refresh.png",
+                                width: 22,
+                                height: 22,
+                              ),
+                            ),
+                          ),
+                        ],
                       )
                     ],
                   ),
-                )
-              ],
-            ),
-          ],
+                  SizedBox(
+                    height: 41,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "오늘 당신이\n말하고 싶은 문장은?",
+                              style: boldWhite24,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ResultPage(
+                                              person: person,
+                                              text: _controller.text,
+                                            )));
+                              },
+                              child: Image.asset(
+                                "assets/images/go.png",
+                                width: 42,
+                                height: 63,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: 6,
+                        ),
+                        Text(
+                          "당신의 워너비, ${person.name} 가 대신 말해줄거예요.",
+                          style: regularGrayA10.copyWith(
+                              color: Color(0xffD1D1D1), fontSize: 11),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(color: Colors.white, width: 1),
+                              color: Colors.white.withOpacity(0.2)),
+                          width: double.infinity,
+                          // height: 42,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 13.0, vertical: 11),
+                            child: Center(
+                              child: TextField(
+                                maxLines: null,
+                                controller: _controller,
+                                style: regularGrayA10.copyWith(
+                                    color: Colors.white, fontSize: 14),
+                                decoration: InputDecoration.collapsed(
+                                  hintText: "무엇을 말하고 싶나요?",
+                                  hintStyle: regularGrayA10.copyWith(
+                                      color: Colors.white, fontSize: 14),
+                                ),
+                                cursorColor: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 14,
+                        ),
+                        Image.asset(
+                          "assets/images/kakao-button.png",
+                          width: 123,
+                          height: 43,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

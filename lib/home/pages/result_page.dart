@@ -170,7 +170,7 @@ class _ResultPageState extends ConsumerState<ResultPage> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "${widget.person.koName} 라면 이렇게 말해요.",
+                            "${widget.person.name} 라면 이렇게 말해요.",
                             style: regularGrayA10.copyWith(
                                 color: Colors.white, fontSize: 11),
                           ),
