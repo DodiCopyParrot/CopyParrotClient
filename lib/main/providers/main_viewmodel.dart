@@ -25,8 +25,8 @@ class MainOnboardingViewmodel extends _$MainOnboardingViewmodel {
   Future<void> build() async {
     var iosInfo = await deviceInfo.iosInfo;
 
-    final uri = Uri.http(
-      "semtle.catholic.ac.kr:8087",
+    final uri = Uri.https(
+      "parrot.dopaminedefense.team",
       '/users',
     );
 
@@ -40,3 +40,9 @@ class MainOnboardingViewmodel extends _$MainOnboardingViewmodel {
     }
   }
 }
+
+// @riverpod
+// class MainPersonViewmodel extends _$MainPersonViewmodel {
+//   final _dio = Dio();
+//   var deviceInfo = DeviceInfoPlugin();
+// }

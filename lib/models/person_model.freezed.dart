@@ -25,8 +25,6 @@ mixin _$PersonModel {
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get enName => throw _privateConstructorUsedError;
-  @Uint8ListConverter()
-  Uint8List? get voiceFile => throw _privateConstructorUsedError;
 
   /// Serializes this PersonModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,12 +43,7 @@ abstract class $PersonModelCopyWith<$Res> {
       _$PersonModelCopyWithImpl<$Res, PersonModel>;
   @useResult
   $Res call(
-      {int voiceId,
-      String describe,
-      String image,
-      String name,
-      String enName,
-      @Uint8ListConverter() Uint8List? voiceFile});
+      {int voiceId, String describe, String image, String name, String enName});
 }
 
 /// @nodoc
@@ -73,7 +66,6 @@ class _$PersonModelCopyWithImpl<$Res, $Val extends PersonModel>
     Object? image = null,
     Object? name = null,
     Object? enName = null,
-    Object? voiceFile = freezed,
   }) {
     return _then(_value.copyWith(
       voiceId: null == voiceId
@@ -96,10 +88,6 @@ class _$PersonModelCopyWithImpl<$Res, $Val extends PersonModel>
           ? _value.enName
           : enName // ignore: cast_nullable_to_non_nullable
               as String,
-      voiceFile: freezed == voiceFile
-          ? _value.voiceFile
-          : voiceFile // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
     ) as $Val);
   }
 }
@@ -113,12 +101,7 @@ abstract class _$$PersonModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int voiceId,
-      String describe,
-      String image,
-      String name,
-      String enName,
-      @Uint8ListConverter() Uint8List? voiceFile});
+      {int voiceId, String describe, String image, String name, String enName});
 }
 
 /// @nodoc
@@ -139,7 +122,6 @@ class __$$PersonModelImplCopyWithImpl<$Res>
     Object? image = null,
     Object? name = null,
     Object? enName = null,
-    Object? voiceFile = freezed,
   }) {
     return _then(_$PersonModelImpl(
       voiceId: null == voiceId
@@ -162,10 +144,6 @@ class __$$PersonModelImplCopyWithImpl<$Res>
           ? _value.enName
           : enName // ignore: cast_nullable_to_non_nullable
               as String,
-      voiceFile: freezed == voiceFile
-          ? _value.voiceFile
-          : voiceFile // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
     ));
   }
 }
@@ -178,8 +156,7 @@ class _$PersonModelImpl implements _PersonModel {
       this.describe = '',
       this.image = '',
       this.name = '',
-      this.enName = "",
-      @Uint8ListConverter() this.voiceFile});
+      this.enName = ""});
 
   factory _$PersonModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PersonModelImplFromJson(json);
@@ -199,13 +176,10 @@ class _$PersonModelImpl implements _PersonModel {
   @override
   @JsonKey()
   final String enName;
-  @override
-  @Uint8ListConverter()
-  final Uint8List? voiceFile;
 
   @override
   String toString() {
-    return 'PersonModel(voiceId: $voiceId, describe: $describe, image: $image, name: $name, enName: $enName, voiceFile: $voiceFile)';
+    return 'PersonModel(voiceId: $voiceId, describe: $describe, image: $image, name: $name, enName: $enName)';
   }
 
   @override
@@ -218,14 +192,13 @@ class _$PersonModelImpl implements _PersonModel {
                 other.describe == describe) &&
             (identical(other.image, image) || other.image == image) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.enName, enName) || other.enName == enName) &&
-            const DeepCollectionEquality().equals(other.voiceFile, voiceFile));
+            (identical(other.enName, enName) || other.enName == enName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, voiceId, describe, image, name,
-      enName, const DeepCollectionEquality().hash(voiceFile));
+  int get hashCode =>
+      Object.hash(runtimeType, voiceId, describe, image, name, enName);
 
   /// Create a copy of PersonModel
   /// with the given fields replaced by the non-null parameter values.
@@ -249,8 +222,7 @@ abstract class _PersonModel implements PersonModel {
       final String describe,
       final String image,
       final String name,
-      final String enName,
-      @Uint8ListConverter() final Uint8List? voiceFile}) = _$PersonModelImpl;
+      final String enName}) = _$PersonModelImpl;
 
   factory _PersonModel.fromJson(Map<String, dynamic> json) =
       _$PersonModelImpl.fromJson;
@@ -265,9 +237,6 @@ abstract class _PersonModel implements PersonModel {
   String get name;
   @override
   String get enName;
-  @override
-  @Uint8ListConverter()
-  Uint8List? get voiceFile;
 
   /// Create a copy of PersonModel
   /// with the given fields replaced by the non-null parameter values.

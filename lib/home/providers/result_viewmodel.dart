@@ -1,13 +1,17 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:audio_waveforms/audio_waveforms.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../models/person_model.dart';
 import '../../models/result_model.dart';
 
 part 'result_viewmodel.g.dart';
@@ -24,8 +28,8 @@ class ResultViewModel extends _$ResultViewModel {
 
     ResultModel resultModel = ResultModel();
 
-    final uri = Uri.http(
-      "semtle.catholic.ac.kr:8087",
+    final uri = Uri.https(
+      "parrot.dopaminedefense.team",
       '/shadowing',
     );
     Response<ResponseBody> response = await _dio.postUri(uri,
@@ -33,25 +37,40 @@ class ResultViewModel extends _$ResultViewModel {
         options: Options(responseType: ResponseType.stream));
     await for (final data in response.data!.stream) {
       final decodedData = utf8.decode(data);
-      print(decodedData);
-      if (!decodedData.startsWith('data:')) {
-        // 'data:' 부분을 제거하고 JSON 데이터만 추출
-        if (decodedData.isNotEmpty || decodedData != "") {
-          try {
-            final jsonData = json.decode(decodedData);
-            ResultModel resultRes = ResultModel.fromJson(jsonData);
-            resultModel = ResultModel(
-              markId: resultRes.markId,
-              enText: resultModel.enText + resultRes.enText,
-              end: resultRes.end,
-            );
-            yield resultModel;
-          } catch (e) {
-            print('JSON 파싱 오류: $e');
-          }
+      print("decodedData${decodedData}");
+      var jsonString = "";
+      var jsonData;
+      try {
+        if (decodedData.startsWith('data:')) {
+          jsonString = decodedData.replaceFirst('data:', '').trim();
+          if (jsonString == "") continue;
+          jsonData = json.decode(jsonString);
         } else {
-          yield resultModel;
+          jsonString = decodedData;
+          if (jsonString == "") continue;
+          jsonData = json.decode(jsonString);
         }
+      } catch (e) {
+        print("파싱에러");
+      }
+
+      if (jsonData == null) continue;
+      ResultModel resultRes = ResultModel.fromJson(jsonData);
+
+      if (resultRes.enText == "<END>") {
+        resultModel = ResultModel(
+          markId: resultRes.markId,
+          enText: resultModel.enText,
+          end: true,
+        );
+        yield resultModel;
+        break;
+      } else {
+        resultModel = ResultModel(
+          markId: resultRes.markId,
+          enText: resultModel.enText + resultRes.enText,
+        );
+        yield resultModel;
       }
     }
   }
@@ -70,17 +89,74 @@ class ResultVoiceViewmodel extends _$ResultVoiceViewmodel {
   @override
   Future<Uint8List> build(
       {required String text, required int markId, required int voiceId}) async {
-    final uri = Uri.http(
-      "semtle.catholic.ac.kr:8087",
+    final uri = Uri.https(
+      "parrot.dopaminedefense.team",
       '/shadowing/generate-voice',
     );
     final response = await _dio.postUri(uri,
         data: {"markId": markId, "voiceId": voiceId, "enText": text},
-        options: Options());
+        options: Options(responseType: ResponseType.bytes)
+        // options: Options(
+        //   headers: {
+        //     'Content-Length': "500",
+        //     'Content-Type': 'application/json', // Content-Type도 설정
+        //   },
+        // ),
+        );
 
-    print(response.data);
     Uint8List fileData = Uint8List.fromList(response.data);
+    // // 임시 파일로 저장합니다.
+    // final tempDir = await Directory.systemTemp.createTemp();
+    // final filePath = '${tempDir.path}/${markId}_audio.mp3';
+    // final file = File(filePath);
+    // await file.writeAsBytes(fileData);
+    // // PlayerController controller = PlayerController(); // Initialise
+    //
+    // // await controller.preparePlayer(
+    // //   path: filePath,
+    // //   shouldExtractWaveform: true,
+    // //   volume: 1,
+    // // );
 
     return fileData;
   }
 }
+
+List<int> parseStringToIntList(String str) {
+  // JSON 형식으로 파싱하여 List<int>로 변환
+  return List<int>.from(json.decode(str));
+}
+
+// @riverpod
+// class BookmarkViewmodel extends _$BookmarkViewmodel {
+//   @override
+//   Future<Uint8List> build() async {}
+// }
+
+@riverpod
+Future<List<PersonModel>> personList(Ref ref) async {
+  final _dio = Dio();
+
+  final uri = Uri.https(
+    "parrot.dopaminedefense.team",
+    '/influencer',
+  );
+
+  final response = await _dio.getUri(
+    uri,
+  );
+
+  final List<PersonModel> personList = (response.data["data"] as List)
+      .map((json) => PersonModel.fromJson(json))
+      .toList();
+
+  return personList;
+}
+
+// List<PersonModel> parsePersonModels(String jsonString) {
+//   // JSON 문자열을 디코딩하여 List<dynamic>으로 변환
+//   final List<dynamic> jsonList = json.decode(jsonString);
+//
+//   // 각 JSON 객체를 PersonModel로 변환하고 리스트로 만듦
+//   return jsonList.map((json) => PersonModel.fromJson(json)).toList();
+// }

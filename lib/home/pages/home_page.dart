@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:copyparrot/home/pages/result_page.dart';
+import 'package:copyparrot/home/providers/result_viewmodel.dart';
 import 'package:copyparrot/models/person_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
+import 'package:flutter_sharing_intent/model/sharing_file.dart';
 
 import '../../core/pallete.dart';
 import '../../core/text_theme.dart';
@@ -30,7 +35,7 @@ class PersonBubble extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(48),
                     child: Image.network(
-                      "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRy5QMODyHm-LaMpgXOqMIUHPbQ-Y51jAZR_UJYC-9Dv1IL3ovh",
+                      person.image,
                       fit: BoxFit.cover,
                     ),
                   )),
@@ -89,8 +94,52 @@ class _HomePageState extends ConsumerState<HomePage> {
     super.dispose();
   }
 
+  late StreamSubscription _intentDataStreamSubscription;
+  List<SharedFile>? list;
+
+  @override
+  void initState() {
+    initSharingListener();
+
+    super.initState();
+  }
+
+  initSharingListener() {
+    // For sharing images coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription = FlutterSharingIntent.instance
+        .getMediaStream()
+        .listen((List<SharedFile> value) {
+      setState(() {
+        list = value;
+        _controller.text = list?.join("\n\n") ?? "";
+      });
+      if (kDebugMode) {
+        print(" Shared: getMediaStream ${value.map((f) => f.value).join(",")}");
+      }
+    }, onError: (err) {
+      if (kDebugMode) {
+        print("Shared: getIntentDataStream error: $err");
+      }
+    });
+
+    // For sharing images coming from outside the app while the app is closed
+    FlutterSharingIntent.instance
+        .getInitialSharing()
+        .then((List<SharedFile> value) {
+      if (kDebugMode) {
+        print(
+            "Shared: getInitialMedia => ${value.map((f) => f.value).join(",")}");
+      }
+      setState(() {
+        list = value;
+        _controller.text = list?.join("\n\n") ?? "";
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final persons = ref.watch(personListProvider);
     PersonModel person =
         PersonModel(name: "오바마", enName: "Barack Obama", voiceId: 1);
     return Scaffold(
@@ -160,7 +209,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                           width: 15,
                         ),
                         GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            await ref.read(personListProvider.future);
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
@@ -228,18 +278,23 @@ class _HomePageState extends ConsumerState<HomePage> {
                                           height: 44,
                                         ),
                                         Expanded(
-                                          child: ListView(
-                                            padding: EdgeInsets.only(top: 40),
-                                            children: [
-                                              PersonBubble(
-                                                  person: PersonModel(
-                                                      name: "일론 머스크",
-                                                      describe:
-                                                          "남아공 출신 특유의 억양, 도전적이며 논리적",
-                                                      image:
-                                                          "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRy5QMODyHm-LaMpgXOqMIUHPbQ-Y51jAZR_UJYC-9Dv1IL3ovh"))
-                                            ],
-                                          ),
+                                          child: !persons.hasValue
+                                              ? Center(
+                                                  child:
+                                                      CircularProgressIndicator(),
+                                                )
+                                              : ListView(
+                                                  padding:
+                                                      EdgeInsets.only(top: 40),
+                                                  children: persons.value!
+                                                      .map((val) => PersonBubble(
+                                                          person: PersonModel(
+                                                              name: val.name,
+                                                              describe:
+                                                                  val.describe,
+                                                              image:
+                                                                  val.image)))
+                                                      .toList()),
                                         )
                                       ],
                                     ),

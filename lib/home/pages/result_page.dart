@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:copyparrot/core/text_theme.dart';
 import 'package:copyparrot/home/providers/result_viewmodel.dart';
 import 'package:copyparrot/models/person_model.dart';
@@ -15,18 +16,66 @@ class ResultPage extends ConsumerStatefulWidget {
 }
 
 class _ResultPageState extends ConsumerState<ResultPage> {
+  AudioPlayer audioPlayer = AudioPlayer();
+  Duration _duration = Duration();
+  Duration _position = Duration();
+
+  // PlayerController controller = PlayerController(); // Initialise
+  bool selected = false;
+  @override
+  void dispose() {
+    // Release all sources and dispose the player.
+    audioPlayer.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    audioPlayer.onDurationChanged.listen((Duration duration) {
+      setState(() {
+        _duration = duration;
+      });
+    });
+    audioPlayer.onPositionChanged.listen((Duration position) {
+      setState(() {
+        _position = position;
+      });
+    });
+  }
+
+  String get _remainingTime {
+    final remaining = _duration - _position;
+    return '${remaining.inMinutes}:${(remaining.inSeconds % 60).toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     final stream = ref.watch(resultViewModelProvider(text: widget.text));
-    //print(stream);
+    var fileData = AsyncValue.loading();
 
-    final file = ref.watch(resultVoiceViewmodelProvider(
-      text:
-          "This is the first part of the translation.\nThis is the second part.\nAnd here’s the final part of the translation.",
-      markId: 2,
-      voiceId: 2,
-    ));
-    print(file);
+    print(stream.value);
+    if (stream.hasValue && stream.value!.end) {
+      fileData = ref.watch(resultVoiceViewmodelProvider(
+        text: stream.value!.enText,
+        markId: stream.value!.markId,
+        voiceId: widget.person.voiceId,
+      ));
+    }
+
+    if (fileData.hasValue && audioPlayer.source == null) {
+      audioPlayer.setSourceBytes(fileData.value!, mimeType: 'audio/mpeg');
+    }
+    // print(controllerResult);
+    // if (controllerResult.hasValue) {
+    //   print(controllerResult.value!);
+    //   setState(() {
+    //     controller = controllerResult.value!;
+    //   });
+    // }
+    // print(path);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -149,9 +198,168 @@ class _ResultPageState extends ConsumerState<ResultPage> {
                             fontWeight: FontWeight.w700,
                             color: Colors.white),
                       ),
-                      Row(
-                        children: [],
-                      )
+                      SizedBox(
+                        height: 11,
+                      ),
+                      if (stream.hasValue && stream.value!.end)
+                        Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                if (!fileData.hasValue) return;
+                                if (audioPlayer.state == PlayerState.playing) {
+                                  await audioPlayer.pause();
+                                } else {
+                                  await audioPlayer.resume();
+                                }
+                              },
+                              child: Container(
+                                width: 139,
+                                height: 37,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      audioPlayer.source == null
+                                          ? SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: CircularProgressIndicator(
+                                                color: Color(0xff375FFF),
+                                                strokeWidth: 1,
+                                              ),
+                                            )
+                                          : Row(
+                                              children: [
+                                                Icon(
+                                                  audioPlayer.state ==
+                                                          PlayerState.playing
+                                                      ? Icons.pause
+                                                      : Icons.play_arrow,
+                                                  size: 16,
+                                                  color: Color(0xff375FFF),
+                                                ),
+                                                SizedBox(
+                                                  width: 4,
+                                                ),
+                                                Text(
+                                                  "${_remainingTime}",
+                                                  style:
+                                                      semiBold18Black.copyWith(
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color:
+                                                              Color(0xff375FFF),
+                                                          fontSize: 10),
+                                                )
+                                              ],
+                                            ),
+                                      Image.asset(
+                                        "assets/images/sound.png",
+                                        width: 66,
+                                        height: 21,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 11,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selected = true;
+                                });
+                                showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return StatefulBuilder(builder:
+                                          (BuildContext context,
+                                              StateSetter setState) {
+                                        return Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height -
+                                              253,
+                                          padding: EdgeInsets.only(
+                                              left: 20, bottom: 60, right: 20),
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius:
+                                                  BorderRadius.vertical(
+                                                      top:
+                                                          Radius.circular(30))),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 12,
+                                                  ),
+                                                  Image.asset(
+                                                    "assets/images/rect.png",
+                                                    width: 50,
+                                                  ),
+                                                  SizedBox(
+                                                    height: 26,
+                                                  ),
+                                                  Image.asset(
+                                                    "assets/images/bottom-sheet.png",
+                                                    width: 350,
+                                                  ),
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Container(
+                                                  width: double.infinity,
+                                                  height: 52,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10),
+                                                    color: Color(0xffDCFF48),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "설정하기",
+                                                      style:
+                                                          boldWhite20.copyWith(
+                                                              color: Color(
+                                                                  0xff111013),
+                                                              fontSize: 16),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                    });
+                              },
+                              child: Image.asset(
+                                "assets/images/bookmark-${selected ? "on" : "off"}.png",
+                                width: 37,
+                              ),
+                            )
+                          ],
+                        )
                     ],
                   ),
                 ),

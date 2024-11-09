@@ -30,7 +30,7 @@ class PersonModel with _$PersonModel {
     @Default('') String image,
     @Default('') String name,
     @Default("") String enName,
-    @Uint8ListConverter() Uint8List? voiceFile,
+    // @Uint8ListConverter() Uint8List? voiceFile,
   }) = _PersonModel;
 
   factory PersonModel.fromJson(Map<String, dynamic> json) =>

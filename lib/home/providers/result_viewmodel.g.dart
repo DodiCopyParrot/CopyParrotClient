@@ -6,7 +6,24 @@ part of 'result_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$resultViewModelHash() => r'bc6488e95fc010f2586374a308fb26f4c8a426df';
+String _$personListHash() => r'2890979bcb594b34ffc893116b190d61d4259560';
+
+/// See also [personList].
+@ProviderFor(personList)
+final personListProvider =
+    AutoDisposeFutureProvider<List<PersonModel>>.internal(
+  personList,
+  name: r'personListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$personListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef PersonListRef = AutoDisposeFutureProviderRef<List<PersonModel>>;
+String _$resultViewModelHash() => r'0c4b135111d4669ae2681c32fc4fd0c55bc8961f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -174,7 +191,7 @@ class _ResultViewModelProviderElement
 }
 
 String _$resultVoiceViewmodelHash() =>
-    r'da122808dd0b316d778afb053c66779484a52304';
+    r'9dfd131a86698a7ef20f611fa8a5cdcc09da89ee';
 
 abstract class _$ResultVoiceViewmodel
     extends BuildlessAutoDisposeAsyncNotifier<Uint8List> {
