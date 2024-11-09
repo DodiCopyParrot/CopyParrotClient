@@ -54,6 +54,18 @@ class _RecordPageState extends ConsumerState<RecordPage> {
     });
     return Scaffold(
       backgroundColor: Pallete.whiteColor,
+      floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        backgroundColor: Color(0xff375FFF),
+        onPressed: () {},
+        child: Center(
+          child: Icon(
+            Icons.play_arrow,
+            size: 31,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: Stack(
         children: [
           Padding(
@@ -91,6 +103,7 @@ class _RecordPageState extends ConsumerState<RecordPage> {
                             BookmarkModel(),
                             ...filterUniqueVoiceIdBookmarks(bookmarks)
                           ];
+                          print("real$real");
                           return ListView.builder(
                               scrollDirection: Axis.horizontal,
                               itemCount: real.length,
@@ -333,7 +346,7 @@ class _RecordPageState extends ConsumerState<RecordPage> {
                                                     width: 4,
                                                   ),
                                                   Text(
-                                                    "0:17",
+                                                    "0:${11 - bookmarks[index].voiceId * 2 - (index % 2 == 0 ? 1 : 0)}",
                                                     style: semiBold18Black
                                                         .copyWith(
                                                             fontWeight:

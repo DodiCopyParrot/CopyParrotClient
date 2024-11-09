@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:copyparrot/core/text_theme.dart';
 import 'package:copyparrot/home/providers/result_viewmodel.dart';
 import 'package:copyparrot/models/person_model.dart';
+import 'package:copyparrot/record/providers/record_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -278,6 +279,9 @@ class _ResultPageState extends ConsumerState<ResultPage> {
                                 setState(() {
                                   selected = true;
                                 });
+                                ref
+                                    .read(bookmarkViewModelProvider.notifier)
+                                    .setBookmark(markId: stream.value!.markId);
                                 showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,

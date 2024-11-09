@@ -22,9 +22,8 @@ BookmarkModel _$BookmarkModelFromJson(Map<String, dynamic> json) {
 mixin _$BookmarkModel {
   int get id => throw _privateConstructorUsedError;
   String get koText => throw _privateConstructorUsedError;
-  String get enText => throw _privateConstructorUsedError;
-  @Uint8ListConverter()
-  Uint8List? get file => throw _privateConstructorUsedError;
+  String get enText =>
+      throw _privateConstructorUsedError; // @Default('') String file,
   String get timestamp => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
@@ -51,7 +50,6 @@ abstract class $BookmarkModelCopyWith<$Res> {
       {int id,
       String koText,
       String enText,
-      @Uint8ListConverter() Uint8List? file,
       String timestamp,
       String image,
       String name,
@@ -77,7 +75,6 @@ class _$BookmarkModelCopyWithImpl<$Res, $Val extends BookmarkModel>
     Object? id = null,
     Object? koText = null,
     Object? enText = null,
-    Object? file = freezed,
     Object? timestamp = null,
     Object? image = null,
     Object? name = null,
@@ -97,10 +94,6 @@ class _$BookmarkModelCopyWithImpl<$Res, $Val extends BookmarkModel>
           ? _value.enText
           : enText // ignore: cast_nullable_to_non_nullable
               as String,
-      file: freezed == file
-          ? _value.file
-          : file // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -137,7 +130,6 @@ abstract class _$$BookmarkModelImplCopyWith<$Res>
       {int id,
       String koText,
       String enText,
-      @Uint8ListConverter() Uint8List? file,
       String timestamp,
       String image,
       String name,
@@ -161,7 +153,6 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
     Object? id = null,
     Object? koText = null,
     Object? enText = null,
-    Object? file = freezed,
     Object? timestamp = null,
     Object? image = null,
     Object? name = null,
@@ -181,10 +172,6 @@ class __$$BookmarkModelImplCopyWithImpl<$Res>
           ? _value.enText
           : enText // ignore: cast_nullable_to_non_nullable
               as String,
-      file: freezed == file
-          ? _value.file
-          : file // ignore: cast_nullable_to_non_nullable
-              as Uint8List?,
       timestamp: null == timestamp
           ? _value.timestamp
           : timestamp // ignore: cast_nullable_to_non_nullable
@@ -216,7 +203,6 @@ class _$BookmarkModelImpl implements _BookmarkModel {
       {this.id = 0,
       this.koText = '',
       this.enText = '',
-      @Uint8ListConverter() this.file,
       this.timestamp = '',
       this.image = '',
       this.name = '',
@@ -235,9 +221,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
   @override
   @JsonKey()
   final String enText;
-  @override
-  @Uint8ListConverter()
-  final Uint8List? file;
+// @Default('') String file,
   @override
   @JsonKey()
   final String timestamp;
@@ -256,7 +240,7 @@ class _$BookmarkModelImpl implements _BookmarkModel {
 
   @override
   String toString() {
-    return 'BookmarkModel(id: $id, koText: $koText, enText: $enText, file: $file, timestamp: $timestamp, image: $image, name: $name, voiceId: $voiceId, describe: $describe)';
+    return 'BookmarkModel(id: $id, koText: $koText, enText: $enText, timestamp: $timestamp, image: $image, name: $name, voiceId: $voiceId, describe: $describe)';
   }
 
   @override
@@ -267,7 +251,6 @@ class _$BookmarkModelImpl implements _BookmarkModel {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.koText, koText) || other.koText == koText) &&
             (identical(other.enText, enText) || other.enText == enText) &&
-            const DeepCollectionEquality().equals(other.file, file) &&
             (identical(other.timestamp, timestamp) ||
                 other.timestamp == timestamp) &&
             (identical(other.image, image) || other.image == image) &&
@@ -279,17 +262,8 @@ class _$BookmarkModelImpl implements _BookmarkModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      koText,
-      enText,
-      const DeepCollectionEquality().hash(file),
-      timestamp,
-      image,
-      name,
-      voiceId,
-      describe);
+  int get hashCode => Object.hash(runtimeType, id, koText, enText, timestamp,
+      image, name, voiceId, describe);
 
   /// Create a copy of BookmarkModel
   /// with the given fields replaced by the non-null parameter values.
@@ -312,7 +286,6 @@ abstract class _BookmarkModel implements BookmarkModel {
       {final int id,
       final String koText,
       final String enText,
-      @Uint8ListConverter() final Uint8List? file,
       final String timestamp,
       final String image,
       final String name,
@@ -327,10 +300,7 @@ abstract class _BookmarkModel implements BookmarkModel {
   @override
   String get koText;
   @override
-  String get enText;
-  @override
-  @Uint8ListConverter()
-  Uint8List? get file;
+  String get enText; // @Default('') String file,
   @override
   String get timestamp;
   @override

@@ -6,7 +6,7 @@ part of 'record_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bookmarkViewModelHash() => r'b11afab710abc3232642fbbd68c5836931901670';
+String _$bookmarkViewModelHash() => r'624f60d057e1f7e8eae6b642b9f10eee1657cb29';
 
 /// See also [BookmarkViewModel].
 @ProviderFor(BookmarkViewModel)

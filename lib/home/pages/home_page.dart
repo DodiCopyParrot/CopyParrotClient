@@ -352,13 +352,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                             ),
                             GestureDetector(
                               onTap: () {
+                                String text = _controller.text;
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => ResultPage(
                                               person: person,
-                                              text: _controller.text,
+                                              text: text,
                                             )));
+                                _controller.clear();
                               },
                               child: Image.asset(
                                 "assets/images/go.png",

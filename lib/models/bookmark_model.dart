@@ -23,7 +23,7 @@ class BookmarkModel with _$BookmarkModel {
     @Default(0) int id,
     @Default('') String koText,
     @Default('') String enText,
-    @Uint8ListConverter() Uint8List? file,
+    // @Default('') String file,
     @Default('') String timestamp,
     @Default('') String image,
     @Default('') String name,
