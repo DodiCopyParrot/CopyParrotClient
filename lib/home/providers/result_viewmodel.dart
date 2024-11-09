@@ -84,6 +84,44 @@ StreamTransformer<Uint8List, List<int>> unit8Transformer =
 );
 
 @riverpod
+class MainHome extends _$MainHome {
+  @override
+  Future<PersonModel> build() async {
+    final _dio = Dio();
+    var deviceInfo = DeviceInfoPlugin();
+
+    var iosInfo = await deviceInfo.iosInfo;
+
+    final uri = Uri.https(
+      "parrot.dopaminedefense.team",
+      '/users/home',
+      <String, String>{'uuid': iosInfo.identifierForVendor!},
+    );
+    final response = await _dio.getUri(uri);
+
+    print(response.data["data"]["influencer"]);
+
+    return PersonModel.fromJson(response.data["data"]["influencer"]);
+  }
+
+  Future<void> setPerson({required int voiceId}) async {
+    final _dio = Dio();
+    var deviceInfo = DeviceInfoPlugin();
+    var iosInfo = await deviceInfo.iosInfo;
+    final uri = Uri.https(
+      "parrot.dopaminedefense.team",
+      '/users',
+    );
+    final response = await _dio.patchUri(
+      uri,
+      data: {"uuid": iosInfo.identifierForVendor, "influencerId": voiceId},
+    );
+    print(response);
+    ref.invalidateSelf();
+  }
+}
+
+@riverpod
 class ResultVoiceViewmodel extends _$ResultVoiceViewmodel {
   final _dio = Dio();
   @override
@@ -146,9 +184,12 @@ Future<List<PersonModel>> personList(Ref ref) async {
     uri,
   );
 
+  print(response.data);
   final List<PersonModel> personList = (response.data["data"] as List)
       .map((json) => PersonModel.fromJson(json))
       .toList();
+
+  print(personList);
 
   return personList;
 }

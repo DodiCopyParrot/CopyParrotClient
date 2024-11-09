@@ -6,7 +6,7 @@ part of 'result_viewmodel.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$personListHash() => r'2890979bcb594b34ffc893116b190d61d4259560';
+String _$personListHash() => r'3b52783df2f48d4da6c7e15a24f828625c659219';
 
 /// See also [personList].
 @ProviderFor(personList)
@@ -190,6 +190,21 @@ class _ResultViewModelProviderElement
   String get text => (origin as ResultViewModelProvider).text;
 }
 
+String _$mainHomeHash() => r'48c737daf9cce888203ae13a452cc1ba600fbbf0';
+
+/// See also [MainHome].
+@ProviderFor(MainHome)
+final mainHomeProvider =
+    AutoDisposeAsyncNotifierProvider<MainHome, PersonModel>.internal(
+  MainHome.new,
+  name: r'mainHomeProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$mainHomeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _$MainHome = AutoDisposeAsyncNotifier<PersonModel>;
 String _$resultVoiceViewmodelHash() =>
     r'9dfd131a86698a7ef20f611fa8a5cdcc09da89ee';
 

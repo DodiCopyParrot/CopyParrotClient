@@ -13,64 +13,78 @@ import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import '../../core/pallete.dart';
 import '../../core/text_theme.dart';
 
-class PersonBubble extends StatelessWidget {
+class PersonBubble extends ConsumerWidget {
   const PersonBubble({super.key, required this.person});
 
   final PersonModel person;
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 68,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: Color(0xffF3F2F8)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+  Widget build(BuildContext context, ref) {
+    print(person);
+    return GestureDetector(
+      onTap: () {
+        ref.read(mainHomeProvider.notifier).setPerson(voiceId: person.voiceId);
+        Navigator.pop(context);
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 5.0),
+        child: Container(
+          height: 68,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Color(0xffF3F2F8)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                  width: 48,
-                  height: 48,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(48),
-                    child: Image.network(
-                      person.image,
-                      fit: BoxFit.cover,
-                    ),
-                  )),
-              SizedBox(
-                width: 12,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
+              Row(
                 children: [
-                  Text(
-                    person.name,
-                    style: semiBold18Black.copyWith(
-                        fontSize: 14, fontWeight: FontWeight.w400),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: SizedBox(
+                        width: 48,
+                        height: 48,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(48),
+                          child: Image.network(
+                            person.image,
+                            fit: BoxFit.cover,
+                          ),
+                        )),
                   ),
-                  Text(
-                    person.describe,
-                    style: semiBold18Black.copyWith(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        color: Pallete.greyAColor),
-                  )
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        person.name,
+                        style: semiBold18Black.copyWith(
+                            fontSize: 14, fontWeight: FontWeight.w400),
+                      ),
+                      Text(
+                        person.context,
+                        style: semiBold18Black.copyWith(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                            color: Pallete.greyAColor),
+                      )
+                    ],
+                  ),
                 ],
               ),
+              Padding(
+                padding: const EdgeInsets.only(right: 20.0),
+                child: Image.asset(
+                  "assets/images/icon_next.png",
+                  width: 24,
+                  height: 24,
+                ),
+              )
             ],
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: Image.asset(
-              "assets/images/icon_next.png",
-              width: 24,
-              height: 24,
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -140,17 +154,21 @@ class _HomePageState extends ConsumerState<HomePage> {
   @override
   Widget build(BuildContext context) {
     final persons = ref.watch(personListProvider);
-    PersonModel person =
-        PersonModel(name: "오바마", enName: "Barack Obama", voiceId: 1);
+    final myPerson = ref.watch(mainHomeProvider);
+
+    PersonModel person = myPerson.hasValue ? myPerson.value! : PersonModel();
+    // PersonModel(name: "오바마", enName: "Barack Obama", voiceId: 1);
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage(
-                "assets/images/background-${person.voiceId}.png",
-              ), // 경로에 맞게 수정
-              fit: BoxFit.cover,
-              alignment: Alignment.topCenter),
+          image: myPerson.hasValue
+              ? DecorationImage(
+                  image: AssetImage(
+                    "assets/images/background-${person.voiceId}.png",
+                  ), // 경로에 맞게 수정
+                  fit: BoxFit.cover,
+                  alignment: Alignment.topCenter)
+              : null,
         ),
         child: Stack(
           children: [
@@ -287,13 +305,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                                                   padding:
                                                       EdgeInsets.only(top: 40),
                                                   children: persons.value!
-                                                      .map((val) => PersonBubble(
-                                                          person: PersonModel(
-                                                              name: val.name,
-                                                              describe:
-                                                                  val.describe,
-                                                              image:
-                                                                  val.image)))
+                                                      .map((val) =>
+                                                          PersonBubble(
+                                                              person: val))
                                                       .toList()),
                                         )
                                       ],
@@ -353,7 +367,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         height: 6,
                       ),
                       Text(
-                        "당신의 워너비, ${person.enName} 가 대신 말해줄거예요.",
+                        "당신의 워너비, ${person.name} 가 대신 말해줄거예요.",
                         style: regularGrayA10.copyWith(
                             color: Color(0xffD1D1D1), fontSize: 11),
                       ),

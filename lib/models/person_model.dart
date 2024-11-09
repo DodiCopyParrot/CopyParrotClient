@@ -26,10 +26,10 @@ class Uint8ListConverter implements JsonConverter<Uint8List, String> {
 class PersonModel with _$PersonModel {
   const factory PersonModel({
     @Default(0) int voiceId,
-    @Default('') String describe,
+    @Default('') String context,
     @Default('') String image,
-    @Default('') String name,
-    @Default("") String enName,
+    @Default('') String koName,
+    @Default("") String name,
     // @Uint8ListConverter() Uint8List? voiceFile,
   }) = _PersonModel;
 

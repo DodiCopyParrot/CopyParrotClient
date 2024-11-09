@@ -9,17 +9,17 @@ part of 'person_model.dart';
 _$PersonModelImpl _$$PersonModelImplFromJson(Map<String, dynamic> json) =>
     _$PersonModelImpl(
       voiceId: (json['voiceId'] as num?)?.toInt() ?? 0,
-      describe: json['describe'] as String? ?? '',
+      context: json['context'] as String? ?? '',
       image: json['image'] as String? ?? '',
-      name: json['name'] as String? ?? '',
-      enName: json['enName'] as String? ?? "",
+      koName: json['koName'] as String? ?? '',
+      name: json['name'] as String? ?? "",
     );
 
 Map<String, dynamic> _$$PersonModelImplToJson(_$PersonModelImpl instance) =>
     <String, dynamic>{
       'voiceId': instance.voiceId,
-      'describe': instance.describe,
+      'context': instance.context,
       'image': instance.image,
+      'koName': instance.koName,
       'name': instance.name,
-      'enName': instance.enName,
     };

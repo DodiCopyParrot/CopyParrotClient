@@ -21,10 +21,10 @@ PersonModel _$PersonModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PersonModel {
   int get voiceId => throw _privateConstructorUsedError;
-  String get describe => throw _privateConstructorUsedError;
+  String get context => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
+  String get koName => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
-  String get enName => throw _privateConstructorUsedError;
 
   /// Serializes this PersonModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $PersonModelCopyWith<$Res> {
       _$PersonModelCopyWithImpl<$Res, PersonModel>;
   @useResult
   $Res call(
-      {int voiceId, String describe, String image, String name, String enName});
+      {int voiceId, String context, String image, String koName, String name});
 }
 
 /// @nodoc
@@ -62,31 +62,31 @@ class _$PersonModelCopyWithImpl<$Res, $Val extends PersonModel>
   @override
   $Res call({
     Object? voiceId = null,
-    Object? describe = null,
+    Object? context = null,
     Object? image = null,
+    Object? koName = null,
     Object? name = null,
-    Object? enName = null,
   }) {
     return _then(_value.copyWith(
       voiceId: null == voiceId
           ? _value.voiceId
           : voiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      describe: null == describe
-          ? _value.describe
-          : describe // ignore: cast_nullable_to_non_nullable
+      context: null == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      koName: null == koName
+          ? _value.koName
+          : koName // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      enName: null == enName
-          ? _value.enName
-          : enName // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -101,7 +101,7 @@ abstract class _$$PersonModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int voiceId, String describe, String image, String name, String enName});
+      {int voiceId, String context, String image, String koName, String name});
 }
 
 /// @nodoc
@@ -118,31 +118,31 @@ class __$$PersonModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? voiceId = null,
-    Object? describe = null,
+    Object? context = null,
     Object? image = null,
+    Object? koName = null,
     Object? name = null,
-    Object? enName = null,
   }) {
     return _then(_$PersonModelImpl(
       voiceId: null == voiceId
           ? _value.voiceId
           : voiceId // ignore: cast_nullable_to_non_nullable
               as int,
-      describe: null == describe
-          ? _value.describe
-          : describe // ignore: cast_nullable_to_non_nullable
+      context: null == context
+          ? _value.context
+          : context // ignore: cast_nullable_to_non_nullable
               as String,
       image: null == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
               as String,
+      koName: null == koName
+          ? _value.koName
+          : koName // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      enName: null == enName
-          ? _value.enName
-          : enName // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -153,10 +153,10 @@ class __$$PersonModelImplCopyWithImpl<$Res>
 class _$PersonModelImpl implements _PersonModel {
   const _$PersonModelImpl(
       {this.voiceId = 0,
-      this.describe = '',
+      this.context = '',
       this.image = '',
-      this.name = '',
-      this.enName = ""});
+      this.koName = '',
+      this.name = ""});
 
   factory _$PersonModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$PersonModelImplFromJson(json);
@@ -166,20 +166,20 @@ class _$PersonModelImpl implements _PersonModel {
   final int voiceId;
   @override
   @JsonKey()
-  final String describe;
+  final String context;
   @override
   @JsonKey()
   final String image;
   @override
   @JsonKey()
-  final String name;
+  final String koName;
   @override
   @JsonKey()
-  final String enName;
+  final String name;
 
   @override
   String toString() {
-    return 'PersonModel(voiceId: $voiceId, describe: $describe, image: $image, name: $name, enName: $enName)';
+    return 'PersonModel(voiceId: $voiceId, context: $context, image: $image, koName: $koName, name: $name)';
   }
 
   @override
@@ -188,17 +188,16 @@ class _$PersonModelImpl implements _PersonModel {
         (other.runtimeType == runtimeType &&
             other is _$PersonModelImpl &&
             (identical(other.voiceId, voiceId) || other.voiceId == voiceId) &&
-            (identical(other.describe, describe) ||
-                other.describe == describe) &&
+            (identical(other.context, context) || other.context == context) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.name, name) || other.name == name) &&
-            (identical(other.enName, enName) || other.enName == enName));
+            (identical(other.koName, koName) || other.koName == koName) &&
+            (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, voiceId, describe, image, name, enName);
+      Object.hash(runtimeType, voiceId, context, image, koName, name);
 
   /// Create a copy of PersonModel
   /// with the given fields replaced by the non-null parameter values.
@@ -219,10 +218,10 @@ class _$PersonModelImpl implements _PersonModel {
 abstract class _PersonModel implements PersonModel {
   const factory _PersonModel(
       {final int voiceId,
-      final String describe,
+      final String context,
       final String image,
-      final String name,
-      final String enName}) = _$PersonModelImpl;
+      final String koName,
+      final String name}) = _$PersonModelImpl;
 
   factory _PersonModel.fromJson(Map<String, dynamic> json) =
       _$PersonModelImpl.fromJson;
@@ -230,13 +229,13 @@ abstract class _PersonModel implements PersonModel {
   @override
   int get voiceId;
   @override
-  String get describe;
+  String get context;
   @override
   String get image;
   @override
-  String get name;
+  String get koName;
   @override
-  String get enName;
+  String get name;
 
   /// Create a copy of PersonModel
   /// with the given fields replaced by the non-null parameter values.
